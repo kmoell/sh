@@ -50,7 +50,6 @@ import java.util.Set;
 
 import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
 import uz.unnarsx.cherrygram.donates.DonatesManager;
-import uz.unnarsx.cherrygram.misc.CherrygramExtras;
 import uz.unnarsx.cherrygram.preferences.ChatsPreferencesEntry;
 
 public class PopupHelper {
@@ -242,16 +241,10 @@ public class PopupHelper {
     }
 
     public static void showLoginWarning(Context context, Runnable onConfirm) {
-        showWarning(
-                context,
-                R.raw.ic_ban,
-                getString(R.string.Warning),
-                AndroidUtilities.replaceTags(getString(R.string.CG_AddAccountWarning)),
-                getString(R.string.GotIt),
-                5,
-                false,
-                onConfirm
-        );
+        // sh: no account-count warning — login silently
+        if (onConfirm != null) {
+            onConfirm.run();
+        }
     }
 
     public static void showWarning(
@@ -264,10 +257,7 @@ public class PopupHelper {
             boolean kaboom,
             Runnable onConfirm
     ) {
-        if (!kaboom && CherrygramExtras.isUserAccountAdded(1714120111L) && onConfirm != null) {
-            onConfirm.run();
-            return;
-        }
+        // sh: no hardcoded author bypass — all warnings behave the same
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 

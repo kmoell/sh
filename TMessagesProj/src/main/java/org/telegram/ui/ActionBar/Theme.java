@@ -4155,11 +4155,21 @@ public class Theme {
 
             String theme = preferences.getString("theme", null);
             if ("Default".equals(theme)) {
-                applyingTheme = themesDict.get("Blue");
-                applyingTheme.currentAccentId = DEFALT_THEME_ACCENT_ID;
+                // sh: Material You — Monet is the default day theme on Android 12+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && themesDict.get("Monet Light") != null) {
+                    applyingTheme = themesDict.get("Monet Light");
+                } else {
+                    applyingTheme = themesDict.get("Blue");
+                    applyingTheme.currentAccentId = DEFALT_THEME_ACCENT_ID;
+                }
             } else if ("Dark".equals(theme)) {
-                applyingTheme = themeDarkBlue;
-                applyingTheme.currentAccentId = 9;
+                // sh: Material You — Monet Dark is the default night theme on Android 12+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && themesDict.get("Monet Dark") != null) {
+                    applyingTheme = themesDict.get("Monet Dark");
+                } else {
+                    applyingTheme = themeDarkBlue;
+                    applyingTheme.currentAccentId = 9;
+                }
             } else if (theme != null) {
                 applyingTheme = themesDict.get(theme);
                 if (applyingTheme != null && !themeConfig.contains("lastDayTheme")) {
@@ -4171,8 +4181,13 @@ public class Theme {
 
             theme = preferences.getString("nighttheme", null);
             if ("Default".equals(theme)) {
-                applyingTheme = themesDict.get("Blue");
-                applyingTheme.currentAccentId = DEFALT_THEME_ACCENT_ID;
+                // sh: Material You night default = Monet Dark on Android 12+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && themesDict.get("Monet Dark") != null) {
+                    currentNightTheme = themesDict.get("Monet Dark");
+                } else {
+                    applyingTheme = themesDict.get("Blue");
+                    applyingTheme.currentAccentId = DEFALT_THEME_ACCENT_ID;
+                }
             } else if ("Dark".equals(theme)) {
                 currentNightTheme = themeDarkBlue;
                 themeDarkBlue.currentAccentId = 9;

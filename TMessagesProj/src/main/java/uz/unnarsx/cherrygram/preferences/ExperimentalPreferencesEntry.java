@@ -108,26 +108,8 @@ public class ExperimentalPreferencesEntry extends BaseCGPreferencesEntry {
                 );
                 items.add(UItem.asShadow(null));
 
-                if (CherrygramExperimentalConfig.INSTANCE.getOomHandlerPopup()) {
-                    items.add(UItem.asHeader("Warn when app memory usage exceeds"));
-                    items.add(
-                            UItem.asIntSlideView(
-                                    1,
-                                    CherrygramCoreConfig.isDevBuild() ? 10 : 85,
-                                    (int) CherrygramExperimentalConfig.INSTANCE.getOomHandlerPopupThreshold(),
-                                    97,
-                                    val -> val + "%",
-                                    val -> {
-                                        monitor.updateWarningThresholdRatio(val);
-                                        CherrygramExperimentalConfig.INSTANCE.setOomHandlerPopupThreshold(val);
-                                    }
-                            )
-                    );
-                    items.add(UItem.asShadow(null));
-                }
-            }
-
-            if (CherrygramCoreConfig.isDevBuild()) {
+                // sh: restart popup removed — OOM handler cleans silently
+                if (CherrygramCoreConfig.isDevBuild()) {
                 items.add(UItem.asHeader("For dev"));
                 items.add(UItem.asButton(testOOMNotificationRow, "Test OOM notification"));
             }
