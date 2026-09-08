@@ -37,7 +37,6 @@ import uz.unnarsx.cherrygram.preferences.helpers.SettingsHelper;
 public class ExperimentalPreferencesEntry extends BaseCGPreferencesEntry {
 
     private final int cleanupHeapRow = 1;
-    private final int restartPopupRow = 2;
 
     private final int testOOMNotificationRow = 3;
 
@@ -99,17 +98,10 @@ public class ExperimentalPreferencesEntry extends BaseCGPreferencesEntry {
                 items.add(UItem.asButton(cleanupHeapRow, "Cleanup heap"));
                 items.add(UItem.asShadow(null));
 
-                items.add(SettingsHelper.asSwitchCG(
-                            restartPopupRow,
-                            getString(R.string.CG_LowMemoryWarning)/*,
-                            "Show restart popup when heap usage is > 95% to prevent crashes"*/
-                        )
-                        .setChecked(CherrygramExperimentalConfig.INSTANCE.getOomHandlerPopup())
-                );
-                items.add(UItem.asShadow(null));
+                // sh: restart popup toggle removed — OOM handler cleans silently
+            }
 
-                // sh: restart popup removed — OOM handler cleans silently
-                if (CherrygramCoreConfig.isDevBuild()) {
+            if (CherrygramCoreConfig.isDevBuild()) {
                 items.add(UItem.asHeader("For dev"));
                 items.add(UItem.asButton(testOOMNotificationRow, "Test OOM notification"));
             }
@@ -128,13 +120,6 @@ public class ExperimentalPreferencesEntry extends BaseCGPreferencesEntry {
             });
 
             System.gc();
-        } else if (item.id == restartPopupRow) {
-            CherrygramExperimentalConfig.INSTANCE.setOomHandlerPopup(!CherrygramExperimentalConfig.INSTANCE.getOomHandlerPopup());
-            SettingsHelper.updateCheckState(view, CherrygramExperimentalConfig.INSTANCE.getOomHandlerPopup());
-
-            if (listView != null && listView.adapter != null) {
-                updateRows(true);
-            }
         } else if (item.id == testOOMNotificationRow) {
             MemoryStressTest.fillHeapToTriggerMonitor();
         }
